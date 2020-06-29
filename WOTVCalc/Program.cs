@@ -12,7 +12,7 @@ namespace WOTVCalc
             string yesOrNo;
             Console.WriteLine("Hello and welcome to the damage calculator.");
             Console.WriteLine("Just to say, this program is in extreme Alpha/Beta since I am bad at coding.");
-            Console.WriteLine("Please keep in mind, this will not include damage done with crits, variance, nor chains.");
+            Console.WriteLine("Please keep in mind, this will not include damage done with crits, variance, nor chains. For now.");
             Console.WriteLine("Have fun using it, and I hope it works well for ya!");
             Console.WriteLine();
             Thread.Sleep(6000);
@@ -130,5 +130,7 @@ namespace WOTVCalc
 
 
         }
+
+        public void 
     }
 }
