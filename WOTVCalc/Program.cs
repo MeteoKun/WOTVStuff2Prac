@@ -9,15 +9,20 @@ namespace WOTVCalc
     {
         static void Main(string[] args)
         {
+            //These properties are made for the damage values with differing steps due to truncating
+            //the damage, or property at very certain intervals.
             double calcDmg;
             double theBraveFaith;
             double finalResultDmg;
 
+            //These are the methods called in the order they are prompted for the user to input
+            //int values or answer Y/N.
             intro();
             calcDmg = Math.Floor(jobMulti() * skillMod());
             calcDmg = Math.Floor(calcDmg * typeResist());
             calcDmg = Math.Floor(calcDmg * odinMachine());
             calcDmg = Math.Floor(calcDmg * defSpirit());
+            calcDmg = Math.Floor(calcDmg * elemResist());
             if (multiHits() == true)
             {
                 Console.WriteLine("Please know the amount of hits the ability is doing.");
@@ -130,6 +135,22 @@ namespace WOTVCalc
             return (100 - defSprResist) / 100;
         }
 
+        public static double elemResist()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Another step, please tell me if you are using an elemental ability. If yes, enter the targets");
+            Console.WriteLine("elemental resistance that will be targetted with your elemental ability.");
+            Console.WriteLine("For example, you are using Holy, and the target has -10% to Light element,");
+            Console.WriteLine("you would input -10.");
+            Console.WriteLine();
+            Console.WriteLine("Input the value below:");
+            double elemRes = Convert.ToInt32(Console.ReadLine());
+            return (100 - elemRes) / 100;
+        }
+
+        //The reason there is a separate math calculation apart from the other methods, is that
+        //for each hit in a multi hit, the math needs to be truncated that includes all the
+        //previous inputs and requires special treatment.
         public static bool multiHits()
         {
             Console.WriteLine();
@@ -203,17 +224,29 @@ namespace WOTVCalc
 
         public static double elementAdvantage()
         {
-            Console.WriteLine("Lastly. If the attack/ability/magic you are using is affected by element, is there an");
-            Console.WriteLine("elemental advantage for you? If yes, subtract 25 to your input, and if it is an elemental");
-            Console.WriteLine("disadvantage, add 25 to your input. For example, lets use a water attack.");
-            Console.WriteLine("If you are using a water element onto a fire target, who has 0% water element resistance,");
-            Console.WriteLine("the value you would input would be -25. If the target has -20% water resistance, then the");
-            Console.WriteLine("input would be -45. Now on the contrary, if you use a lightning element attack onto an earth target,");
-            Console.WriteLine("and the target has 20% lightning resistance, you would input 45.");
+            Console.WriteLine("This is the last step. Is there an elemental advantage your unit has onto the");
+            Console.WriteLine("target? For example, if Ramza is targetting a Sterne or any dark unit, he will");
+            Console.WriteLine("always have an elemental advantage in damage against them, and you would input Y.");
+            Console.WriteLine("Please input Y or N.");
             Console.WriteLine();
             Console.WriteLine("Input the value below:");
-            double elemAdv = Convert.ToInt32(Console.ReadLine());
-            return (100 - elemAdv) / 100;
+            
+
+            char elemAnswer = Convert.ToChar(Console.ReadLine());
+            elemAnswer = Char.ToUpper(elemAnswer);
+            Console.WriteLine();
+
+            if (elemAnswer == 'Y')
+            {
+                return (100 + 25) / 100;
+            }
+            else
+            {
+                return 1;
+            }
+
+            
+            
         }
 
         public static void theMultiHits(double theDmg, int numHits)
